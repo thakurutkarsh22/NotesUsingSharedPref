@@ -16,4 +16,6 @@ public class Note {
     public String getTime() {
         return time;
     }
+
+    //
 }
