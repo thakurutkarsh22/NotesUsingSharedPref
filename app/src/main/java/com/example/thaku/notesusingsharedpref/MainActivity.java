@@ -30,20 +30,22 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("mypref", MODE_PRIVATE);
 
+//
+//        Map<String,?> map = sharedPreferences.getAll();
+//
+//        Set<String> set = sharedPreferences.getStringSet("key", null);
+//        Iterator<String> itr;
+//        if(set!=null){
+//
+//            itr = set.iterator();
+//
+//            while(itr.hasNext()){
+//                Note no = new Note(itr.next().toString(), "ew");
+//                notes.add(no);
+//            }
+//        }
 
-        Map<String,?> map = sharedPreferences.getAll();
-
-        Set<String> set = sharedPreferences.getStringSet("key", null);
-        Iterator<String> itr;
-        if(set!=null){
-
-            itr = set.iterator();
-
-            while(itr.hasNext()){
-                Note no = new Note(itr.next().toString(), "ew");
-                notes.add(no);
-            }
-        }
+        loadSharedPref();
 
 
 
@@ -93,26 +95,26 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-//        for(int i =0 ; i < notes.size() ; i++){
-//
-//            String s = notes.get(i).getTitle();
-//
-//            editor.putString(s , s);
-//            Log.e("TAG", "onStop: "+ s );
-//        }
-//
-//        Log.e("TAGs", "onStop: " + sharedPreferences.getAll().size() );
-
-        ArrayList<String> ar = new ArrayList<>();
-
         for(int i =0 ; i < notes.size() ; i++){
-            ar.add(notes.get(i).getTitle());
+
+            String s = notes.get(i).getTitle();
+
+            editor.putString("a"+i , s);
+            Log.e("TAG", "onStop: "+ s );
         }
 
-        Set<String> set = new HashSet<String>();
-        set.addAll(ar);
-        editor.putStringSet("key", set);
         Log.e("TAGs", "onStop: " + sharedPreferences.getAll().size() );
+//
+//        ArrayList<String> ar = new ArrayList<>();
+//
+//        for(int i =0 ; i < notes.size() ; i++){
+//            ar.add(notes.get(i).getTitle());
+//        }
+//
+//        Set<String> set = new HashSet<String>();
+//        set.addAll(ar);
+//        editor.putStringSet("key", set);
+//        Log.e("TAGs", "onStop: " + sharedPreferences.getAll().size() );
 
 
         editor.apply();
@@ -122,6 +124,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onStop();
+
+    }
+
+
+    private void loadSharedPref (){
+        notes.clear();
+        ArrayList<Note> sparrayList = new ArrayList<>();
+
+        SharedPreferences sp = getSharedPreferences("mypref", MODE_PRIVATE);
+
+        Log.e("loadsharepref" , sp.getAll().size()+"");
+        for(int i=0;i<sp.getAll().size();i++){
+            String title = sp.getString("a"+i , null);
+            sparrayList.add(new Note(title,"aa"));
+        }
+
+        notes = sparrayList;
 
     }
 }
